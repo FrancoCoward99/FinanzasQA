@@ -51,7 +51,7 @@
                         <h4 class="text-center">Menú</h4>
                         <a href="#">Inicio</a>
                         <a href="#">Categorías</a>
-                        <a th:href="@{/gasto}">Gastos</a>
+                        <a th:href="@{/ingreso}">Ingresos</a>
                         <a th:href="@{/gasto}">Gastos</a>
                         <a href="#">Tarjetas</a>
                         <a href="#">Configuración</a>
@@ -63,33 +63,34 @@
 
 
                 </nav>
-                
+
                 <main class="col-md-10 content">
-                    
+
                     <h2>Gastos</h2>
-                    
+
                     <div class="row align-items-center">
-                    <div class="col-auto text-start">
-                        <section th:fragment="botonAgregar">
-                            <div class="add-category">
-                                <button class="btn btn-dark"
-                                        type="button"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#agregarGasto">
-                                    <i class="fas fa-plus"></i> Agregar Gasto
-                                </button>
-                            </div>
-                        </section>
-                    </div>
-                    
-                    <div class="col-auto text-end">
-                        <section>
-                            <div class="card p-3 border-dark" style="width: 250px; text-align: center;">
-                                <h3>[[${totalGastos}]] Gastos  $Total</h3>
-                            </div>
-                        </section>
-                    </div>
-                        
+                        <div class="col-auto text-start">
+                            <section th:fragment="botonAgregar">
+                                <div class="add-category">
+                                    <button class="btn btn-dark"
+                                            type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#agregarGasto">
+                                        <i class="fas fa-plus"></i> Agregar Gasto
+                                    </button>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="col-auto text-end">
+                            <section>
+                                <div class="card p-2 border-dark d-inline-block"
+                                     style="width: auto; height: 38px; padding: 0.375rem 0.75rem; line-height: 1.5; font-size: 1rem;">
+                                    <h3 class="m-0" style="font-size: 1rem;">[[${totalGastos}]] Gastos $Total</h3>
+                                </div>
+                            </section>
+                        </div>
+
                         <section>
                             <div id="agregarGasto" 
                                  class="modal fade" 
@@ -137,29 +138,29 @@
                                 </div>
                             </div>
                         </section>
-                    
-                    <div class="mt-4">
-                        <h4>Historial de Transacciones</h4>
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
-                                    <th>Monto</th>
-                         
-                                </tr>
-                            </thead>
-                            <tbody>
-                        
-                                <tr th:each="c : ${gastos}">
-                                    <td>[[${c.fecha}]]</td>
-                                    <td>[[${c.descripcion}]]</td>
-                                    <td>$[[${c.monto}]]</td> 
-                         
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+
+                        <div class="mt-4">
+                            <h4>Historial de Transacciones</h4>
+                            <table class="table table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Monto</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr th:each="c : ${gastos}">
+                                        <td>[[${c.fecha}]]</td>
+                                        <td>[[${c.descripcion}]]</td>
+                                        <td>$[[${c.monto}]]</td> 
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                 </main>
             </div>
         </div>
