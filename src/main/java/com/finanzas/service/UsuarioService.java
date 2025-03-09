@@ -8,4 +8,6 @@ public interface UsuarioService {
     
     // Método para autenticar usuario
     Optional<Usuario> autenticarUsuario(String correo, String contrasena);
+
+    Optional<Usuario> obtenerUsuarioPorId(Long idUsuario);
 }
