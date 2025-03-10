@@ -1,9 +1,11 @@
 package com.finanzas.controller;
 
 import com.finanzas.domain.Categoria;
+import com.finanzas.domain.TipoCategoria;
 import com.finanzas.domain.Usuario;
 import com.finanzas.service.CategoriaService;
 import com.finanzas.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,53 +24,63 @@ public class CategoriaController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // Mostrar formulario para crear una nueva categoría
-    @GetMapping("/nueva")
-    public String mostrarFormularioCategoria(Model model) {
-        model.addAttribute("categoria", new Categoria());
-        return "formularioCategoria"; // Vista donde se llena el formulario
-    }
-
-    // Guardar nueva categoría
-    @PostMapping("/guardar")
-    public String guardarCategoria(@ModelAttribute Categoria categoria, @RequestParam Long idUsuario, Model model) {
-        Optional<Usuario> usuarioOpt = usuarioService.obtenerUsuarioPorId(idUsuario);
-
-        if (usuarioOpt.isPresent()) {
-            categoria.setUsuario(usuarioOpt.get());
-            categoriaService.guardarCategoria(categoria);
-            return "redirect:/categoria/lista"; // Redirige a la lista de categorías
-        } else {
-            model.addAttribute("error", "Usuario no encontrado.");
-            return "formularioCategoria";
-        }
-    }
-
-    // Mostrar lista de categorías de un usuario
+    // Mostrar lista de categorías del usuario autenticado
     @GetMapping("/lista")
-    public String listarCategorias(@RequestParam Long idUsuario, Model model) {
-        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(idUsuario);
-        model.addAttribute("categorias", categorias);
-        return "listaCategorias"; // Vista donde se muestran las categorías
-    }
+    public String listarCategorias(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-    // Mostrar formulario de edición
-    @GetMapping("/editar/{id}")
-    public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
-        Optional<Categoria> categoriaOpt = categoriaService.obtenerCategoriaPorId(id);
-        
-        if (categoriaOpt.isPresent()) {
-            model.addAttribute("categoria", categoriaOpt.get());
-            return "formularioCategoria"; // Reutiliza la vista de formulario
-        } else {
-            return "redirect:/categoria/lista";
+        if (usuario == null) {
+            
+            return "redirect:/error"; // Si no hay usuario, redirigir a error
         }
+
+        System.out.println("✅ Usuario autenticado: " + usuario.getNombre());
+
+        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("categorias", categorias);
+
+        return "categoria"; // Renderiza categoria.html en templates/
     }
 
-    // Eliminar categoría
+    // Guardar una nueva categoría
+    @PostMapping("/guardar")
+    public String guardarCategoria(@RequestParam String nombre, @RequestParam String tipo, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/usuario/login";
+        }
+
+        Categoria categoria = new Categoria(usuario, nombre, TipoCategoria.valueOf(tipo));
+        categoriaService.guardarCategoria(categoria);
+
+        return "redirect:/categoria/lista";
+    }
+
+    // Eliminar categoría por ID
     @GetMapping("/eliminar/{id}")
-    public String eliminarCategoria(@PathVariable Long id) {
-        categoriaService.eliminarCategoria(id);
+    public String eliminarCategoria(@PathVariable Long id, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/usuario/login"; // Redirigir si no hay usuario en sesión
+        }
+
+        Optional<Categoria> categoriaOpt = categoriaService.obtenerCategoriaPorId(id);
+
+        if (categoriaOpt.isPresent()) {
+            Categoria categoria = categoriaOpt.get();
+
+            if (categoria.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())) {
+                categoriaService.eliminarCategoria(id);
+            } else {
+                return "redirect:/categoria/lista?error=No tienes permiso para eliminar esta categoría";
+            }
+        } else {
+            return "redirect:/categoria/lista?error=Categoría no encontrada";
+        }
+
         return "redirect:/categoria/lista";
     }
 }
