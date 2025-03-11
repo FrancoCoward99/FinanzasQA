@@ -4,12 +4,18 @@
  */
 package com.finanzas.controller;
 
+import com.finanzas.domain.Categoria;
 import com.finanzas.domain.Gasto;
+import com.finanzas.domain.Usuario;
 import com.finanzas.service.GastoService;
+import com.finanzas.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,7 +28,13 @@ public class GastoController {
     private GastoService gastoService;
     
     @GetMapping
-    public String listado(Model model) {
+    public String listado(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null) {
+            return "redirect:/error"; // Si no hay usuario, redirigir a error
+        }
+        
         
         var lista = gastoService.getGastos();
         
@@ -37,4 +49,5 @@ public class GastoController {
         gastoService.save(gasto);
         return "redirect:/gasto";
     }
+    
 }
