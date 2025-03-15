@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 public class GastoServiceImpl implements GastoService {
     
@@ -40,6 +39,9 @@ public class GastoServiceImpl implements GastoService {
         
     }
 
-
-    
+    @Override
+    public List<Gasto> getGastosPorUsuario(Long idUsuario) {
+        return gastoDao.findByUsuario_IdUsuario(idUsuario);
+    }
+  
 }

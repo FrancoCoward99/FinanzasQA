@@ -13,5 +13,7 @@ public interface GastoService {
     
     public void save(Gasto gasto);
     
+    List<Gasto> getGastosPorUsuario(Long idUsuario);
+    
 
 }

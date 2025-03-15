@@ -4,14 +4,14 @@
  */
 package com.finanzas.dao;
 
-
 import com.finanzas.domain.Gasto;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
 @EnableJpaRepositories
-public interface GastoDao
-                            extends JpaRepository<Gasto,Long> {
+public interface GastoDao extends JpaRepository<Gasto, Long> {
+    
+    List<Gasto> findByUsuario_IdUsuario(Long idUsuario);
     
 }

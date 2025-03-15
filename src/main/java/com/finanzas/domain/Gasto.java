@@ -27,13 +27,13 @@ public class Gasto implements Serializable{
     private LocalDate fecha;
     
     
-//    @ManyToOne
-//    @JoinColumn(name="id_usuario")
-//    private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name="id_usuario")
+    private Usuario usuario;
     
-//        @ManyToOne
-//    @JoinColumn(name="id_categoria")
-//    private Categoria categoria;
+        @ManyToOne
+    @JoinColumn(name="id_categoria")
+    private Categoria categoria;
     
 }
 

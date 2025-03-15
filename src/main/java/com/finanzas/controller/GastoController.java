@@ -1,52 +1,68 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.finanzas.controller;
 
 import com.finanzas.domain.Categoria;
 import com.finanzas.domain.Gasto;
 import com.finanzas.domain.Usuario;
+import com.finanzas.service.CategoriaService;
 import com.finanzas.service.GastoService;
-import com.finanzas.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/gasto")
 public class GastoController {
-    
-    
+
     @Autowired
     private GastoService gastoService;
-    
+
+    @Autowired
+    private CategoriaService categoriaService;
+
     @GetMapping
     public String listado(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        
+
         if (usuario == null) {
-            return "redirect:/error"; // Si no hay usuario, redirigir a error
+            return "redirect:/usuario/login";
         }
-        
-        
-        var lista = gastoService.getGastos();
-        
-        model.addAttribute("gastos", lista); 
+
+        var lista = gastoService.getGastosPorUsuario(usuario.getIdUsuario());
+        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("gastos", lista);
+        model.addAttribute("categorias", categorias);
         model.addAttribute("totalGastos", lista.size());
-        
-        return "gasto"; 
+
+        return "gasto";
     }
     
     @PostMapping("/guardar")
-    public String gastoGuardar(Gasto gasto) {  
+    public String ingresoGuardar(@RequestParam("categoria") Long idCategoria,
+            @ModelAttribute Gasto gasto,
+            HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/usuario/login";
+        }
+
+        // Obtener la categoría seleccionada
+        Categoria categoria = categoriaService.obtenerCategoriaPorId(idCategoria).orElse(null);
+
+        if (categoria == null) {
+            return "redirect:/error";
+        }
+
+        gasto.setUsuario(usuario);
+        gasto.setCategoria(categoria);
         gastoService.save(gasto);
+
         return "redirect:/gasto";
     }
     
