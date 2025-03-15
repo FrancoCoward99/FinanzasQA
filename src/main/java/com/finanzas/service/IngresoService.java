@@ -13,5 +13,7 @@ public interface IngresoService {
     
     public void save(Ingreso ingreso);
     
+    List<Ingreso> getIngresosPorUsuario(Long idUsuario);
+    
 
 }

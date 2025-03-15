@@ -31,7 +31,7 @@ public class Usuario implements Serializable {
     private String correo;
 
     @Column(nullable = false)
-    private String contrasena; // Se recomienda almacenar encriptada
+    private String contrasena;
 
     private boolean activo = true;
 

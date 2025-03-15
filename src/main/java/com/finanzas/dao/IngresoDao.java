@@ -4,14 +4,14 @@
  */
 package com.finanzas.dao;
 
-
 import com.finanzas.domain.Ingreso;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
 @EnableJpaRepositories
-public interface IngresoDao
-                            extends JpaRepository<Ingreso,Long> {
-    
+public interface IngresoDao extends JpaRepository<Ingreso, Long> {
+
+    List<Ingreso> findByUsuario_IdUsuario(Long idUsuario);
+
 }
