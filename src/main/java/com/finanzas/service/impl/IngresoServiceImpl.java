@@ -12,15 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 public class IngresoServiceImpl implements IngresoService {
-    
+
     @Autowired
     private IngresoDao ingresoDao;
-    
+
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<Ingreso> getIngresos() {
         var lista = ingresoDao.findAll();
 
@@ -28,18 +27,21 @@ public class IngresoServiceImpl implements IngresoService {
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public Ingreso getIngreso(Ingreso ingreso) {
         return ingresoDao.findById(ingreso.getIdIngreso()).orElse(null);
     }
-    
+
     @Override
     @Transactional
-    public void save(Ingreso ingreso){
+    public void save(Ingreso ingreso) {
         ingresoDao.save(ingreso);
-        
+
     }
 
+    @Override
+    public List<Ingreso> getIngresosPorUsuario(Long idUsuario) {
+        return ingresoDao.findByUsuario_IdUsuario(idUsuario);
+    }
 
-    
 }
