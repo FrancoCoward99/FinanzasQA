@@ -1,6 +1,7 @@
 
 package com.finanzas.service;
 
+
 import com.finanzas.domain.Ingreso;
 import java.util.List;
 
@@ -16,4 +17,9 @@ public interface IngresoService {
     List<Ingreso> getIngresosPorUsuario(Long idUsuario);
     
 
+    Double obtenerTotalIngresos(Long idUsuario);
+    
+    void eliminarIngreso(Long idIngreso);
+
+ 
 }

@@ -41,7 +41,7 @@ public class GastoController {
 
         return "gasto";
     }
-    
+
     @PostMapping("/guardar")
     public String ingresoGuardar(@RequestParam("categoria") Long idCategoria,
             @ModelAttribute Gasto gasto,
@@ -65,5 +65,11 @@ public class GastoController {
 
         return "redirect:/gasto";
     }
-    
+
+    @PostMapping("/eliminar/{idGasto}")
+    public String eliminarGasto(@PathVariable Long idGasto) {
+        gastoService.eliminarGasto(idGasto);
+        return "redirect:/gasto"; // Redirige a la lista de gastos
+    }
+
 }

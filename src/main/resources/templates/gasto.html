@@ -136,19 +136,23 @@
                                         <th>Fecha</th>
                                         <th>Descripción</th>
                                         <th>Monto</th>
-
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <tr th:each="c : ${gastos}">
                                         <td>[[${c.fecha}]]</td>
                                         <td>[[${c.descripcion}]]</td>
-                                        <td>$[[${c.monto}]]</td> 
-
+                                        <td>₡[[${#numbers.formatDecimal(c.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                        <td>
+                                            <form th:action="@{/gasto/eliminar/{id}(id=${c.idGasto})}" method="POST">
+                                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
+
                         </div>
                 </main>
             </div>

@@ -1,17 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.finanzas.dao;
 
 import com.finanzas.domain.Gasto;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
-@EnableJpaRepositories
 public interface GastoDao extends JpaRepository<Gasto, Long> {
-    
+
     List<Gasto> findByUsuario_IdUsuario(Long idUsuario);
-    
+
+    @Query("SELECT SUM(g.monto) FROM Gasto g WHERE g.usuario.idUsuario = :idUsuario")
+    Double obtenerTotalGastos(@Param("idUsuario") Long idUsuario);
+
+    @Query(value = "INSERT INTO historial_transacciones (id_usuario, tipo, id_categoria, monto, fecha) "
+            + "VALUES (:idUsuario, 'GASTO', :idCategoria, :monto, NOW())", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void registrarGastoEnHistorial(@Param("idUsuario") Long idUsuario,
+            @Param("idCategoria") Long idCategoria,
+            @Param("monto") Double monto);
 }

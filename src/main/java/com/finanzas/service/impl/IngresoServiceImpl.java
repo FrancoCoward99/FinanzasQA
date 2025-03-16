@@ -7,6 +7,7 @@ package com.finanzas.service.impl;
 import com.finanzas.dao.IngresoDao;
 import com.finanzas.domain.Ingreso;
 import com.finanzas.service.IngresoService;
+import java.text.DecimalFormat;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +37,25 @@ public class IngresoServiceImpl implements IngresoService {
     @Transactional
     public void save(Ingreso ingreso) {
         ingresoDao.save(ingreso);
-
+        ingresoDao.registrarIngresoEnHistorial(ingreso.getUsuario().getIdUsuario(),
+                ingreso.getCategoria().getIdCategoria(),
+                ingreso.getMonto());
     }
 
     @Override
     public List<Ingreso> getIngresosPorUsuario(Long idUsuario) {
         return ingresoDao.findByUsuario_IdUsuario(idUsuario);
+    }
+
+    @Override
+    public Double obtenerTotalIngresos(Long idUsuario) {
+        Double total = ingresoDao.obtenerTotalIngresos(idUsuario);
+        return total != null ? total : 0.0;
+    }
+
+    @Override
+    public void eliminarIngreso(Long idIngreso) {
+        ingresoDao.deleteById(idIngreso);
     }
 
 }

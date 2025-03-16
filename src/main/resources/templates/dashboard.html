@@ -48,44 +48,46 @@
                 <nav class="col-md-2 d-none d-md-block sidebar d-flex flex-column">
                     <div class="position-sticky">
                         <h4 class="text-center">Menú</h4>
-                        <a href="#">Inicio</a>
+                        <a th:href="@{/dashboard}">Inicio</a>
                         <a th:href="@{/categoria/lista}">Categorías</a>
                         <a th:href="@{/ingreso}">Ingresos</a>
                         <a th:href="@{/gasto}">Gastos</a>
                         <a href="#">Tarjetas</a>
                         <a href="#">Configuración</a>
-                        <!-- Botón de Cerrar Sesión correctamente alineado al final -->
-                    <form th:action="@{/}" method="POST" class="mt-auto p-3">
-                        <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
-                    </form>
-                        <p>Usuario autenticado: <span th:text="${session.usuario.nombre}"></span></p>
-
+                        <!-- Botón de Cerrar Sesión -->
+                        <form th:action="@{/}" method="POST" class="mt-auto p-3">
+                            <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
+                        </form>
                     </div>
-
-                    
                 </nav>
 
                 <!-- Contenido Principal -->
                 <main class="col-md-10 content">
                     <h2>Te damos la bienvenida, <span th:text="${usuario.nombre}"></span></h2>
-                    
-                    <!-- Grid de Gastos -->
+
+                    <!-- Grid de Finanzas -->
                     <div class="row mt-4">
-                        <div class="col-md-6">
-                            <div class="card p-3">
-                                <h5>Gastos de esta semana</h5>
-                                <p class="text-primary fs-4">40%</p>
+                        <div class="col-md-4">
+                            <div class="card p-3 text-success">
+                                <h5>Monto Total de Ingresos</h5>
+                                <p class="fs-4">₡ [[${#numbers.formatDecimal(totalIngresos, 1, 'POINT', 2, 'COMMA')}]]</p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card p-3">
-                                <h5>Monto total de gastos</h5>
-                                <p class="text-danger fs-4">200</p>
+                        <div class="col-md-4">
+                            <div class="card p-3 text-danger">
+                                <h5>Monto Total de Gastos</h5>
+                                <p class="fs-4">₡ [[${#numbers.formatDecimal(totalGastos, 1, 'POINT', 2, 'COMMA')}]]</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 text-primary">
+                                <h5>Saldo Total de la Cuenta</h5>
+                                <p class="fs-4">₡ [[${#numbers.formatDecimal(saldoTotal, 1, 'POINT', 2, 'COMMA')}]]</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Tabla de Transacciones -->
+                    <!-- Historial de Transacciones -->
                     <div class="mt-4">
                         <h4>Historial de Transacciones</h4>
                         <table class="table table-striped">
@@ -98,37 +100,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>2025-03-01</td>
-                                    <td>Compra en supermercado</td>
-                                    <td>-50</td>
-                                    <td class="text-danger">Gasto</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-03-02</td>
-                                    <td>Sueldo</td>
-                                    <td>+1500</td>
-                                    <td class="text-success">Ingreso</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-03-03</td>
-                                    <td>Cine</td>
-                                    <td>-20</td>
-                                    <td class="text-danger">Gasto</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-03-04</td>
-                                    <td>Venta de producto</td>
-                                    <td>+200</td>
-                                    <td class="text-success">Ingreso</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-03-05</td>
-                                    <td>Suscripción mensual</td>
-                                    <td>-10</td>
-                                    <td class="text-danger">Gasto</td>
+                                <tr th:each="transaccion : ${historialTransacciones}">
+                                    <td>[[${transaccion.fecha}]]</td>
+                                    <td>[[${transaccion.categoria.nombre}]]</td>
+                                    <td class="text-success" th:if="${transaccion.tipo == 'INGRESO'}">₡ [[${#numbers.formatDecimal(transaccion.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                    <td class="text-danger" th:if="${transaccion.tipo == 'GASTO'}">₡ [[${#numbers.formatDecimal(transaccion.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                    <td>[[${transaccion.tipo}]]</td>
                                 </tr>
                             </tbody>
+
                         </table>
                     </div>
                 </main>

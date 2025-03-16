@@ -102,27 +102,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <h4>Historial de Transacciones</h4>
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
-                                    <th>Monto</th>
-                                    <th>Categoría</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="c : ${ingresos}">
-                                    <td>[[${c.fecha}]]</td>
-                                    <td>[[${c.descripcion}]]</td>
-                                    <td>$[[${c.monto}]]</td>
-                                    <td>[[${c.categoria.nombre}]]</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Monto</th>
+                                <th>Categoría</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="c : ${ingresos}">
+                                <td>[[${c.fecha}]]</td>
+                                <td>[[${c.descripcion}]]</td>
+                                <td>₡[[${#numbers.formatDecimal(c.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                <td>[[${c.categoria.nombre}]]</td>
+                                <td>
+                                    <form th:action="@{/ingreso/eliminar/{id}(id=${c.idIngreso})}" method="POST">
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </main>
             </div>
         </div>

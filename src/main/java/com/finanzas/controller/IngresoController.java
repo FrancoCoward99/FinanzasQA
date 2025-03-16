@@ -66,4 +66,10 @@ public class IngresoController {
         return "redirect:/ingreso";
     }
 
+    @PostMapping("/eliminar/{idIngreso}")
+    public String eliminarIngreso(@PathVariable Long idIngreso) {
+        ingresoService.eliminarIngreso(idIngreso);
+        return "redirect:/ingreso"; // Redirige a la lista de ingresos
+    }
+
 }
