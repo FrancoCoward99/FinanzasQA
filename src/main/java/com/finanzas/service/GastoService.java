@@ -5,17 +5,17 @@ import java.util.List;
 
 public interface GastoService {
 
-    public List<Gasto> getGastos();
+    List<Gasto> getGastos();
 
-    public Gasto getGasto(Gasto gasto);
+    Gasto getGasto(Gasto gasto);
 
-    public void save(Gasto gasto);
+    void save(Gasto gasto);
 
-    List<Gasto> getGastosPorUsuario(Long idUsuario);
+    List<Gasto> obtenerGastosPorUsuario(Long idUsuario);
 
     Double obtenerTotalGastos(Long idUsuario);
-    
+
     void eliminarGasto(Long idGasto);
 
-    
+    void eliminarPorId(Long idGasto);
 }

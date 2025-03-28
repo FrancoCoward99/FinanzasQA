@@ -23,7 +23,7 @@
                 display: block;
             }
             .sidebar a:hover {
-                background-color: #007bff;
+                background-color: #00b405;
             }
             .content {
                 padding: 20px;
@@ -37,21 +37,9 @@
     <body>
         <div class="container-fluid">
             <div class="row">
-                <!-- Sidebar -->
-                <nav class="col-md-2 d-none d-md-block sidebar d-flex flex-column">
-                    <div class="position-sticky">
-                        <h4 class="text-center">Menú</h4>
-                        <a th:href="@{/dashboard}">Inicio</a>
-                        <a th:href="@{/categoria/lista}">Categorías</a>
-                        <a th:href="@{/ingreso}">Ingresos</a>
-                        <a th:href="@{/gasto}">Gastos</a>
-                        <a href="#">Tarjetas</a>
-                        <a href="#">Configuración</a>
-                        <form th:action="@{/}" method="POST" class="mt-auto p-3">
-                            <button type="submit" class="btn btn-danger w-100">Cerrar Sesión</button>
-                        </form>
-                    </div>
-                </nav>
+                 <div class="col-md-2 p-0">
+                    <div th:replace="fragmentos :: menu"></div>
+                </div>
                 <main class="col-md-10 content">
                     <h2>Ingresos</h2>
                     <div class="row align-items-center">
@@ -102,6 +90,7 @@
                             </div>
                         </div>
                     </div>
+                    <h4>Historial de Transacciones</h4>
                     <table class="table table-striped">
                         <thead class="table-dark">
                             <tr>

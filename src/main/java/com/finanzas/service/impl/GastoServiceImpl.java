@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.finanzas.service.impl;
 
 import com.finanzas.dao.GastoDao;
 import com.finanzas.domain.Gasto;
 import com.finanzas.service.GastoService;
-import java.text.DecimalFormat;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class GastoServiceImpl implements GastoService {
@@ -22,9 +18,7 @@ public class GastoServiceImpl implements GastoService {
     @Override
     @Transactional(readOnly = true)
     public List<Gasto> getGastos() {
-        var lista = gastoDao.findAll();
-
-        return lista;
+        return gastoDao.findAll();
     }
 
     @Override
@@ -37,25 +31,35 @@ public class GastoServiceImpl implements GastoService {
     @Transactional
     public void save(Gasto gasto) {
         gastoDao.save(gasto);
-        gastoDao.registrarGastoEnHistorial(gasto.getUsuario().getIdUsuario(),
+        gastoDao.registrarGastoEnHistorial(
+                gasto.getUsuario().getIdUsuario(),
                 gasto.getCategoria().getIdCategoria(),
-                gasto.getMonto());
+                gasto.getMonto()
+        );
     }
 
     @Override
-    public List<Gasto> getGastosPorUsuario(Long idUsuario) {
+    @Transactional(readOnly = true)
+    public List<Gasto> obtenerGastosPorUsuario(Long idUsuario) {
         return gastoDao.findByUsuario_IdUsuario(idUsuario);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Double obtenerTotalGastos(Long idUsuario) {
         Double total = gastoDao.obtenerTotalGastos(idUsuario);
         return total != null ? total : 0.0;
     }
 
     @Override
+    @Transactional
     public void eliminarGasto(Long idGasto) {
         gastoDao.deleteById(idGasto);
     }
 
+    @Override
+    @Transactional
+    public void eliminarPorId(Long idGasto) {
+        gastoDao.deleteById(idGasto);
+    }
 }

@@ -2,9 +2,11 @@ package com.finanzas.controller;
 
 import com.finanzas.domain.Categoria;
 import com.finanzas.domain.Gasto;
+import com.finanzas.domain.Tarjeta;
 import com.finanzas.domain.Usuario;
 import com.finanzas.service.CategoriaService;
 import com.finanzas.service.GastoService;
+import com.finanzas.service.TarjetaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,53 +25,66 @@ public class GastoController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping
-    public String listado(HttpSession session, Model model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    @Autowired
+    private TarjetaService tarjetaService;
 
+    @GetMapping
+    public String mostrarGastos(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
-            return "redirect:/usuario/login";
+            return "redirect:/";
         }
 
-        var lista = gastoService.getGastosPorUsuario(usuario.getIdUsuario());
+        List<Gasto> gastos = gastoService.obtenerGastosPorUsuario(usuario.getIdUsuario());
         List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+        List<Tarjeta> tarjetas = tarjetaService.obtenerTarjetasPorUsuario(usuario.getIdUsuario());
 
         model.addAttribute("usuario", usuario);
-        model.addAttribute("gastos", lista);
+        model.addAttribute("gastos", gastos);
         model.addAttribute("categorias", categorias);
-        model.addAttribute("totalGastos", lista.size());
+        model.addAttribute("tarjetas", tarjetas);
+       model.addAttribute("totalGastos", gastos.size());
+
 
         return "gasto";
     }
 
     @PostMapping("/guardar")
-    public String ingresoGuardar(@RequestParam("categoria") Long idCategoria,
-            @ModelAttribute Gasto gasto,
-            HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String guardarGasto(@RequestParam("fecha") String fecha,
+                               @RequestParam("descripcion") String descripcion,
+                               @RequestParam("monto") Double monto,
+                               @RequestParam("categoria") Long idCategoria,
+                               @RequestParam("tarjeta") Long idTarjeta,
+                               HttpSession session) {
 
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
-            return "redirect:/usuario/login";
+            return "redirect:/";
         }
 
-        // Obtener la categoría seleccionada
         Categoria categoria = categoriaService.obtenerCategoriaPorId(idCategoria).orElse(null);
+        Tarjeta tarjeta = tarjetaService.obtenerTarjetaPorId(idTarjeta).orElse(null);
 
-        if (categoria == null) {
+        if (categoria == null || tarjeta == null) {
             return "redirect:/error";
         }
 
+        Gasto gasto = new Gasto();
         gasto.setUsuario(usuario);
         gasto.setCategoria(categoria);
+        gasto.setTarjeta(tarjeta);
+        gasto.setDescripcion(descripcion);
+        gasto.setMonto(monto);
+        gasto.setFecha(java.sql.Date.valueOf(fecha));
+
         gastoService.save(gasto);
 
         return "redirect:/gasto";
     }
 
-    @PostMapping("/eliminar/{idGasto}")
-    public String eliminarGasto(@PathVariable Long idGasto) {
-        gastoService.eliminarGasto(idGasto);
-        return "redirect:/gasto"; // Redirige a la lista de gastos
+    @PostMapping("/eliminar/{id}")
+    public String eliminarGasto(@PathVariable("id") Long id) {
+        gastoService.eliminarPorId(id);
+        return "redirect:/gasto";
     }
-
 }
