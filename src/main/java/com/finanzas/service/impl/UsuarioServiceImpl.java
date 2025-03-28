@@ -23,4 +23,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Optional<Usuario> autenticarUsuario(String correo, String contrasena) {
         return usuarioDao.findByCorreoAndContrasena(correo, contrasena);
     }
+
+    @Override
+    public Optional<Usuario> obtenerUsuarioPorId(Long idUsuario) {
+        return usuarioDao.findById(idUsuario);
+    }
 }
