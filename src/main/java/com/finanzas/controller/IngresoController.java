@@ -42,6 +42,59 @@ public class IngresoController {
         return "ingreso";
     }
 
+    //se realiza los cambios para incorporar los filtros por categoria AYUDAaaaaaaaaa
+//    @GetMapping("/listadoTodo")
+//    public String listadoTodo(HttpSession session, Model model) {
+//        Usuario usuario = (Usuario) session.getAttribute("usuario");
+//
+//        if (usuario == null) {
+//            return "redirect:/usuario/login";
+//        }
+//
+//        var lista = ingresoService.getIngresosPorUsuario(usuario.getIdUsuario());
+//        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+//
+//        model.addAttribute("usuario", usuario);
+//        model.addAttribute("ingresos", lista);
+//        model.addAttribute("categorias", categorias);
+//        model.addAttribute("totalIngresos", lista.size());
+//
+//        return "ingreso";
+//    }
+//
+//    @GetMapping("/listado/{idCategoria")
+//    public String listado(HttpSession session, Model model, Categoria categoria) {
+//        Usuario usuario = (Usuario) session.getAttribute("usuario");
+//
+//        if (usuario == null) {
+//            return "redirect:/usuario/login";
+//        }
+//
+//        var lista = ingresoService.getIngresosPorUsuario(usuario.getIdUsuario());
+//        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+//
+//        Categoria categoriaSeleccionada = null;
+//        for (Categoria categoria : categorias) {
+//            if (categoria.getIdCategoria().equals(idCategoria)) { 
+//                categoriaSeleccionada = categoria;
+//                break;
+//            }
+//        }
+//
+//        
+//        List<Ingreso> ingresos = null;
+//        if (categoriaSeleccionada != null) {
+//            ingresos = categoriaSeleccionada.getIngresos();  
+//        }
+//        model.addAttribute("usuario", usuario);
+//        model.addAttribute("ingresos", lista);
+//        model.addAttribute("categorias", categorias);
+//        model.addAttribute("totalIngresos", lista.size());
+//
+//        return "ingreso";
+//    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     @PostMapping("/guardar")
     public String ingresoGuardar(@RequestParam("categoria") Long idCategoria,
             @ModelAttribute Ingreso ingreso,

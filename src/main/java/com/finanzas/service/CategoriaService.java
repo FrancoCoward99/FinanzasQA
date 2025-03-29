@@ -8,6 +8,7 @@ public interface CategoriaService {
     
     // Guardar o actualizar una categoría
     Categoria guardarCategoria(Categoria categoria);
+    Categoria getCategoria(Categoria categoria);
     
     // Obtener una categoría por su ID
     Optional<Categoria> obtenerCategoriaPorId(Long id);

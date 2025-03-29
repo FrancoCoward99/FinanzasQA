@@ -35,4 +35,9 @@ public class CategoriaServiceImpl implements CategoriaService {
         categoriaDao.deleteById(id);
     }
 
+    @Override
+    public Categoria getCategoria(Categoria categoria) {
+        return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
+    }
+
 }
