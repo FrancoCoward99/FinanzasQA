@@ -1,13 +1,13 @@
 package com.finanzas.controller;
 
-import com.finanzas.domain.Configuracion;
-import com.finanzas.service.ConfiguracionService;
+import com.finanzas.domain.Usuario;
+import com.finanzas.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -15,43 +15,42 @@ import java.util.Optional;
 public class ConfiguracionController {
 
     @Autowired
-    private ConfiguracionService configuracionService;
+    private UsuarioService usuarioService;
 
     @GetMapping("/configuracion")
-    public String mostrarFormularioConfiguracion(@RequestParam Long idUsuario, Model model) {
-        Optional<Configuracion> configuracionOpt = configuracionService.obtenerConfiguracionPorId(idUsuario);
-        if (configuracionOpt.isPresent()) {
-            model.addAttribute("configuracion", configuracionOpt.get());
-            return "configuracion";  // Nombre del archivo HTML: configuracion.html
+    public String mostrarFormularioConfiguracion(HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return "redirect:/";
         }
-        return "redirect:/dashboard";  // Si no existe, redirige al dashboard
+        model.addAttribute("usuario", usuario);
+        return "configuracion";
     }
 
-    // Procesar el formulario de configuración del usuario
     @PostMapping("/configuracion")
-    public String actualizarConfiguracion(Configuracion configuracion) {
-        Optional<Configuracion> configuracionOpt = configuracionService.obtenerConfiguracionPorId(configuracion.getIdUsuario());
-        if (configuracionOpt.isPresent()) {
-            Configuracion usuarioExistente = configuracionOpt.get();
-
-            // Validar el campo nombre (no puede ser vacío o solo espacios)
-            if (configuracion.getNombre() != null && !configuracion.getNombre().trim().isEmpty()) {
-                usuarioExistente.setNombre(configuracion.getNombre());  // Solo actualizar si no está vacío
-            }
-
-            // Validar la contraseña (solo actualizar si no está vacía o solo tiene espacios)
-            if (configuracion.getContrasena() != null && !configuracion.getContrasena().trim().isEmpty()) {
-                usuarioExistente.setContrasena(configuracion.getContrasena());  // Solo actualizar si no está vacío
-            }
-
-            // Guardar los cambios
-            configuracionService.actualizarConfiguracion(usuarioExistente);
-
-            // Redirigir al dashboard o a la página de éxito
-            return "redirect:/dashboard";  // O bien, redirigir a otra página de éxito
+    public String actualizarConfiguracion(Usuario usuarioForm, HttpSession session, Model model) {
+        Usuario sessionUsuario = (Usuario) session.getAttribute("usuario");
+        if (sessionUsuario == null) {
+            return "redirect:/error";
         }
 
-        // Si el usuario no existe, redirigir a otra página
-        return "redirect:/dashboard";
+        Optional<Usuario> usuarioOpt = usuarioService.obtenerUsuarioPorId(sessionUsuario.getIdUsuario());
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+
+            if (usuarioForm.getNombre() != null && !usuarioForm.getNombre().trim().isEmpty()) {
+                usuario.setNombre(usuarioForm.getNombre());
+            }
+
+            if (usuarioForm.getContrasena() != null && !usuarioForm.getContrasena().trim().isEmpty()) {
+                usuario.setContrasena(usuarioForm.getContrasena());
+            }
+
+            usuarioService.actualizarUsuario(usuario);
+            session.setAttribute("usuario", usuario);
+        }
+
+        return "redirect:/configuracion";
     }
 }
+

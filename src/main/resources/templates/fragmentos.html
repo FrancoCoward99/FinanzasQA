@@ -14,7 +14,9 @@
         <a th:href="@{/ingreso}" class="text-white px-3 py-2 d-block">Ingresos</a>
         <a th:href="@{/gasto}" class="text-white px-3 py-2 d-block">Gastos</a>
         <a th:href="@{/tarjeta/lista}" class="text-white px-3 py-2 d-block">Tarjetas</a> <!-- CORREGIDO -->
-        <a th:href="@{/configuracion?idUsuario=${configuracion.idUsuario}}" class="text-white px-3 py-2 d-block">Configuración</a>
+      <a th:href="@{/configuracion}" class="text-white px-3 py-2 d-block">Configuración</a>
+
+
         <form th:action="@{/usuario/logout}" method="POST" class="mt-auto px-3" style="margin-bottom: 10px;">
             <button type="submit" class="btn btn-danger w-100 mt-3" style="white-space: nowrap;">Cerrar Sesión</button>
         </form>
