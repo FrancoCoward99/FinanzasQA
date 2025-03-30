@@ -44,11 +44,11 @@
 
                 <!-- Contenido Principal -->
                 <main class="col-md-10 content">
-                    <h2 class="mb-4">Categorías de <span th:text="${usuario.nombre}"></span></h2>
+                    <h2 class="mb-4">[[#{categoria.usuario}]]<span th:text="${usuario.nombre}"></span></h2>
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4>Lista de Categorías</h4>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">Agregar</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCategoria">[[#{categoria.agregar}]]</button>
                     </div>
 
                     <!-- Tabla de Categorías -->
@@ -56,9 +56,9 @@
                         <table class="table table-striped">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Acciones</th>
+                                    <th>[[#{categoria.nombre}]]</th>
+                                    <th>[[#{categoria.tipo}]]</th>
+                                    <th>[[#{categoria.acciones}]]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,7 +66,7 @@
                                     <td th:text="${categoria.nombre}"></td>
                                     <td th:text="${categoria.tipo}"></td>
                                     <td>
-                                        <a th:href="@{/categoria/eliminar/{id}(id=${categoria.idCategoria})}" class="btn btn-danger btn-sm">Eliminar</a>
+                                        <a th:href="@{/categoria/eliminar/{id}(id=${categoria.idCategoria})}" class="btn btn-danger btn-sm">[[#{categoria.eliminar}]]</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -81,24 +81,24 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel">Agregar Nueva Categoría</h5>
+                        <h5 class="modal-title" id="modalLabel">[[#{categoria.agregar}]]</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form th:action="@{/categoria/guardar}" method="POST">
                             <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}" />
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre de la Categoría</label>
+                                <label for="nombre" class="form-label">[[#{categoria.nombreCategoria}]]</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="tipo" class="form-label">Tipo</label>
+                                <label for="tipo" class="form-label">[[#{categoria.tipo}]]</label>
                                 <select class="form-control" id="tipo" name="tipo" required>
-                                    <option value="INGRESO">Ingreso</option>
-                                    <option value="GASTO">Gasto</option>
+                                    <option value="INGRESO">[[#{plantilla.ingresos}]]</option><!-- revisar  -->
+                                    <option value="GASTO">[[#{plantilla.gastos}]]</option>    <!-- revisar  -->
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">[[#{categoria.guardar}]]</button>
                         </form>
                     </div>
                 </div>
