@@ -58,4 +58,6 @@ public class IngresoServiceImpl implements IngresoService {
         ingresoDao.deleteById(idIngreso);
     }
 
+    
+
 }

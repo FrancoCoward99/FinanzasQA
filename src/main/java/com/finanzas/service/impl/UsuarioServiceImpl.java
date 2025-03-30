@@ -15,17 +15,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioDao usuarioDao;
 
     @Override
-    public void registrarUsuario(Usuario usuario) {
-        usuarioDao.save(usuario);
+    public Optional<Usuario> autenticarUsuario(String correo, String contrasena) {
+        return usuarioDao.findByCorreoAndContrasena(correo, contrasena);
     }
 
     @Override
-    public Optional<Usuario> autenticarUsuario(String correo, String contrasena) {
-        return usuarioDao.findByCorreoAndContrasena(correo, contrasena);
+    public void registrarUsuario(Usuario usuario) {
+        usuarioDao.save(usuario);
     }
 
     @Override
     public Optional<Usuario> obtenerUsuarioPorId(Long idUsuario) {
         return usuarioDao.findById(idUsuario);
     }
+
+    @Override
+    public void actualizarUsuario(Usuario usuario) {
+        usuarioDao.save(usuario);
+    }
 }
+
+
