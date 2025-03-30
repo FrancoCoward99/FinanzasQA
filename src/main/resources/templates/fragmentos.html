@@ -1,97 +1,107 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
 
-<!-- Fragmento del menú lateral -->
-<div th:fragment="menu">
-    <div class="sidebar d-flex flex-column" style="height: 100vh; background-color: #343a40; color: white; padding-top: 20px;">
-        <h4 class="text-center">Menú</h4>
-        <a th:href="@{/dashboard}" class="text-white px-3 py-2 d-block">Inicio</a>
-        <a th:href="@{/categoria/lista}" class="text-white px-3 py-2 d-block">Categorías</a>
-        <a th:href="@{/ingreso}" class="text-white px-3 py-2 d-block">Ingresos</a>
-        <a th:href="@{/gasto}" class="text-white px-3 py-2 d-block">Gastos</a>
-        <a th:href="@{/tarjeta/lista}" class="text-white px-3 py-2 d-block">Tarjetas</a> <!-- CORREGIDO -->
-      <a th:href="@{/configuracion}" class="text-white px-3 py-2 d-block">Configuración</a>
+        <!-- Fragmento del menú lateral -->
+        <div th:fragment="menu">
+            <div class="sidebar d-flex flex-column" style="height: 100vh; background-color: #343a40; color: white; padding-top: 20px;">
+                <h4 class="text-center">Menú</h4>
+                <a th:href="@{/dashboard}" class="text-white px-3 py-2 d-block">Inicio</a>
+                <a th:href="@{/categoria/lista}" class="text-white px-3 py-2 d-block">Categorías</a>
+                <a th:href="@{/ingreso}" class="text-white px-3 py-2 d-block">Ingresos</a>
+                <a th:href="@{/gasto}" class="text-white px-3 py-2 d-block">Gastos</a>
+                <a th:href="@{/tarjeta/lista}" class="text-white px-3 py-2 d-block">Tarjetas</a> <!-- CORREGIDO -->
+                <a th:href="@{/configuracion}" class="text-white px-3 py-2 d-block">Configuración</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Lang</a>
+                        <ul class="dropdown-menu dropdown-menu-dark"  aria-labelledby="dropdownLanguage">
+                            <li><a class="dropdown-item" th:href="@{/(lang=es)}">Español</a></li>
+                            <li><a class="dropdown-item"  th:href="@{/(lang=en)}">English</a></li>
+                        </ul>
+                    </li>
+                </ul> 
 
 
-        <form th:action="@{/usuario/logout}" method="POST" class="mt-auto px-3" style="margin-bottom: 10px;">
-            <button type="submit" class="btn btn-danger w-100 mt-3" style="white-space: nowrap;">Cerrar Sesión</button>
-        </form>
-    </div>
-</div>
 
-<!-- Fragmento de contenido de Tarjetas -->
-<div th:fragment="tarjetas/contenido">
-    <h2>Mis Tarjetas</h2>
-
-    <!-- Botón para agregar tarjeta -->
-    <div class="mb-3">
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#agregarTarjeta">
-            <i class="fas fa-plus"></i> Agregar Tarjeta
-        </button>
-    </div>
-
-    <!-- Tabla de tarjetas -->
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre</th>
-                <th>Número</th>
-                <th>Tipo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="tarjeta : ${tarjetas}">
-                <td th:text="${tarjeta.nombre}"></td>
-                <td th:text="${tarjeta.numeroTarjeta}"></td>
-                <td th:text="${tarjeta.tipo}"></td>
-                <td>
-                    <form th:action="@{/tarjeta/eliminar/{id}(id=${tarjeta.idTarjeta})}" method="post">
-                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Modal para agregar tarjeta -->
-    <div class="modal fade" id="agregarTarjeta" tabindex="-1" aria-labelledby="agregarTarjetaLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title w-100 text-center" id="agregarTarjetaLabel">Agregar Tarjeta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <form th:action="@{/tarjeta/guardar}" method="post">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label>Nombre</label>
-                            <input type="text" class="form-control" name="nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label>Número de Tarjeta</label>
-                            <input type="text" class="form-control" name="numeroTarjeta" required>
-                        </div>
-                        <div class="mb-3">
-                            <label>Tipo</label>
-                            <select name="tipo" class="form-control" required>
-                                <option value="Débito">Débito</option>
-                                <option value="Crédito">Crédito</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">Guardar</button>
-                    </div>
+                <form th:action="@{/usuario/logout}" method="POST" class="mt-auto px-3" style="margin-bottom: 10px;">
+                    <button type="submit" class="btn btn-danger w-100 mt-3" style="white-space: nowrap;">Cerrar Sesión</button>
                 </form>
             </div>
         </div>
-    </div>
-</div>
 
-</body>
+        <!-- Fragmento de contenido de Tarjetas -->
+        <div th:fragment="tarjetas/contenido">
+            <h2>Mis Tarjetas</h2>
+
+            <!-- Botón para agregar tarjeta -->
+            <div class="mb-3">
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#agregarTarjeta">
+                    <i class="fas fa-plus"></i> Agregar Tarjeta
+                </button>
+            </div>
+
+            <!-- Tabla de tarjetas -->
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Número</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tarjeta : ${tarjetas}">
+                        <td th:text="${tarjeta.nombre}"></td>
+                        <td th:text="${tarjeta.numeroTarjeta}"></td>
+                        <td th:text="${tarjeta.tipo}"></td>
+                        <td>
+                            <form th:action="@{/tarjeta/eliminar/{id}(id=${tarjeta.idTarjeta})}" method="post">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal para agregar tarjeta -->
+            <div class="modal fade" id="agregarTarjeta" tabindex="-1" aria-labelledby="agregarTarjetaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title w-100 text-center" id="agregarTarjetaLabel">Agregar Tarjeta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <form th:action="@{/tarjeta/guardar}" method="post">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control" name="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Número de Tarjeta</label>
+                                    <input type="text" class="form-control" name="numeroTarjeta" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Tipo</label>
+                                    <select name="tipo" class="form-control" required>
+                                        <option value="Débito">Débito</option>
+                                        <option value="Crédito">Crédito</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
 </html>
