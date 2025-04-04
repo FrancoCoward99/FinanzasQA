@@ -9,11 +9,11 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import lombok.Data;
 
-
 @Data
 @Entity
 @Table(name = "usuarios")
 public class Configuracion implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -42,5 +42,5 @@ public class Configuracion implements Serializable {
         this.correo = correo;
         this.contrasena = contrasena;
     }
+ 
 }
-

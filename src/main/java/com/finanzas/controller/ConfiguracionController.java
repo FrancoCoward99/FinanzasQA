@@ -1,5 +1,6 @@
 package com.finanzas.controller;
 
+import com.finanzas.domain.Configuracion;
 import com.finanzas.domain.Usuario;
 import com.finanzas.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
@@ -52,5 +53,16 @@ public class ConfiguracionController {
 
         return "redirect:/configuracion";
     }
-}
 
+    @PostMapping("/configuracion/tema")
+    public String cambiarTema(HttpSession session) {
+        String tema = (String) session.getAttribute("tema");
+        if ("oscuro".equals(tema)) {
+            session.setAttribute("tema", "claro");
+        } else {
+            session.setAttribute("tema", "oscuro");
+        }
+        return "redirect:/configuracion";
+    }
+
+}
