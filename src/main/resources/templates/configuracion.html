@@ -40,16 +40,16 @@
         <main class="col-md-10 mt-5">
             <div class="container">
 
-                <h2 class="text-center mb-4">Configuración de Usuario</h2>
+                <h2 class="text-center mb-4">[[#{configuracion.usuario}]]</h2>
 
                 <form th:action="@{/configuracion}" method="post">
                     <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
                     <div class="mb-3">
-                        <label class="form-label">Nombre</label>
+                        <label class="form-label">[[#{nombre.usuario}]]</label>
                         <input type="text" class="form-control" name="nombre" th:value="${usuario.nombre}" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Nueva Contraseña</label>
+                        <label class="form-label">[[#{configuracion.contrasena}]]</label>
                         <input type="password" class="form-control" name="contrasena" placeholder="Ingrese nueva contraseña">
                     </div>
 
@@ -57,7 +57,7 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                         Guardar Cambios
                     </button>
-                    <a th:href="@{/dashboard}" class="btn btn-secondary">Cancelar</a>
+                    <a th:href="@{/dashboard}" class="btn btn-secondary">[[#{configuracion.cancelar]]</a>
 
                     <!-- Modal -->
                     <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
@@ -65,7 +65,7 @@
                             <div class="modal-content">
 
                                 <div class="modal-header bg-warning">
-                                    <h5 class="modal-title">Confirmar Cambios</h5>
+                                    <h5 class="modal-title">[[#{configuracion.cambios]]</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
 
