@@ -5,19 +5,25 @@
     </head>
     <body>
 
-
-
-<!-- Fragmento del menú lateral sin idioma-->
-<div th:fragment="menu">
-    <div class="sidebar d-flex flex-column" style="height: 100vh; background-color: #343a40; color: white; padding-top: 20px;">
-        <h4 class="text-center">Menú</h4>
-        <a th:href="@{/dashboard}" class="text-white px-3 py-2 d-block">Inicio</a>
-        <a th:href="@{/categoria/lista}" class="text-white px-3 py-2 d-block">Categorías</a>
-        <a th:href="@{/ingreso}" class="text-white px-3 py-2 d-block">Ingresos</a>
-        <a th:href="@{/gasto}" class="text-white px-3 py-2 d-block">Gastos</a>
-        <a th:href="@{/tarjeta/lista}" class="text-white px-3 py-2 d-block">Tarjetas</a>
-        <a th:href="@{/ahorro}" class="text-white px-3 py-2 d-block">Mi Ahorro</a><!-- CORREGIDO -->
-      <a th:href="@{/configuracion}" class="text-white px-3 py-2 d-block">Configuración</a>
+        <!-- Fragmento del menú lateral -->
+        <div th:fragment="menu">
+            <div class="sidebar d-flex flex-column" style="height: 100vh; background-color: #343a40; color: white; padding-top: 20px;">
+                <h4 class="text-center">Menú</h4>
+                <a th:href="@{/dashboard}" class="text-white px-3 py-2 d-block">[[#{plantilla.inicio}]]</a>
+                <a th:href="@{/categoria/lista}" class="text-white px-3 py-2 d-block">[[#{plantilla.categorias}]]</a>
+                <a th:href="@{/ingreso}" class="text-white px-3 py-2 d-block">[[#{plantilla.ingresos}]]</a>
+                <a th:href="@{/gasto}" class="text-white px-3 py-2 d-block">[[#{plantilla.gastos}]]</a>
+                <a th:href="@{/tarjeta/lista}" class="text-white px-3 py-2 d-block">[[#{plantilla.tarjetas}]]</a> <!-- CORREGIDO -->
+                <a th:href="@{/configuracion}" class="text-white px-3 py-2 d-block">[[#{plantilla.gastos}]]</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Lang</a>
+                        <ul class="dropdown-menu dropdown-menu-dark"  aria-labelledby="dropdownLanguage">
+                            <li><a class="dropdown-item"  th:href="@{''(lang=es)}">Español</a></li>
+                            <li><a class="dropdown-item"  th:href="@{''(lang=en)}">English</a></li>
+                        </ul>
+                    </li>
+                </ul> 
 
 
 

@@ -6,7 +6,6 @@ import com.finanzas.domain.Tarjeta;
 import com.finanzas.domain.Usuario;
 import com.finanzas.service.CategoriaService;
 import com.finanzas.service.GastoService;
-import com.finanzas.service.IngresoService;
 import com.finanzas.service.TarjetaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +28,8 @@ public class GastoController {
     @Autowired
     private TarjetaService tarjetaService;
 
-    @Autowired
-    private IngresoService ingresoService;
-
     @GetMapping
-    public String mostrarGastos(HttpSession session, Model model, @RequestParam(value = "alertaNegativo", required = false) String alertaNegativo) {
+    public String mostrarGastos(HttpSession session, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             return "redirect:/";
@@ -47,11 +43,8 @@ public class GastoController {
         model.addAttribute("gastos", gastos);
         model.addAttribute("categorias", categorias);
         model.addAttribute("tarjetas", tarjetas);
-        model.addAttribute("totalGastos", gastos.size());
+       model.addAttribute("totalGastos", gastos.size());
 
-        if ("true".equals(alertaNegativo)) {
-            model.addAttribute("alertaNegativo", true);
-        }
 
         return "gasto";
     }
@@ -67,13 +60,6 @@ public class GastoController {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             return "redirect:/";
-        }
-
-        Double totalIngresos = ingresoService.obtenerTotalIngresos(usuario.getIdUsuario());
-        Double totalGastos = gastoService.obtenerTotalGastos(usuario.getIdUsuario());
-
-        if (totalIngresos - (totalGastos + monto) < 0) {
-            return "redirect:/gasto?alertaNegativo=true";
         }
 
         Categoria categoria = categoriaService.obtenerCategoriaPorId(idCategoria).orElse(null);
