@@ -58,6 +58,9 @@ public class IngresoServiceImpl implements IngresoService {
         ingresoDao.deleteById(idIngreso);
     }
 
-    
+    @Override
+    public List<Ingreso> getIngresosPorCategoria(Long idCategoria, Long idUsuario) {
+        return ingresoDao.findByCategoria_IdCategoriaAndUsuario_IdUsuario(idCategoria, idUsuario);
+    }
 
 }

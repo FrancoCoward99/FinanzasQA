@@ -24,6 +24,8 @@ public interface IngresoDao extends JpaRepository<Ingreso, Long> {
             @Param("monto") Double monto);
 
      //Ejemplo de método utilizando Métodos de Query
+
+    List<Ingreso> findByCategoria_IdCategoriaAndUsuario_IdUsuario(Long idCategoria, Long idUsuario);
     
 
     

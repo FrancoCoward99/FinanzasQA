@@ -2,6 +2,7 @@ package com.finanzas.service.impl;
 
 import com.finanzas.dao.CategoriaDao;
 import com.finanzas.domain.Categoria;
+import com.finanzas.domain.TipoCategoria;
 import com.finanzas.service.CategoriaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +41,8 @@ public class CategoriaServiceImpl implements CategoriaService {
         return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
     }
 
+    @Override
+    public List<Categoria> obtenerCategoriasDeIngresoPorUsuario(Long idUsuario) {
+        return categoriaDao.findByUsuario_IdUsuarioAndTipo(idUsuario, TipoCategoria.INGRESO);
+    }
 }
