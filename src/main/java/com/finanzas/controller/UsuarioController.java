@@ -17,45 +17,52 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // Mostrar página de registro
     @GetMapping("/registro")
     public String mostrarRegistro(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "registroUsuario";
     }
 
-    // Guardar nuevo usuario
     @PostMapping("/registrar")
-    public String registrarUsuario(@ModelAttribute Usuario usuario, Model model) {
-        try {
-            usuarioService.registrarUsuario(usuario);
-            model.addAttribute("mensaje", "Usuario registrado con éxito");
-            return "redirect:/"; 
-        } catch (Exception e) {
-            model.addAttribute("error", "Error al registrar usuario: " + e.getMessage());
-            return "registroUsuario";
-        }
+    public String registrarUsuario(Usuario usuario, Model model) {
+        usuarioService.registrarUsuario(usuario);
+        model.addAttribute("mensaje", "Usuario registrado con éxito");
+        return "redirect:/";
     }
 
-    // Autenticación de usuario (login)
     @PostMapping("/autenticar")
-    public String autenticarUsuario(@RequestParam String correo, @RequestParam String contrasena,
-                                    HttpSession session, Model model) {
+    public String autenticarUsuario(@RequestParam String correo,
+                                    @RequestParam String contrasena,
+                                    HttpSession session,
+                                    Model model) {
         Optional<Usuario> usuarioOpt = usuarioService.autenticarUsuario(correo, contrasena);
 
         if (usuarioOpt.isPresent()) {
-            session.setAttribute("usuario", usuarioOpt.get());
-            return "redirect:/dashboard";
+            Usuario usuario = usuarioOpt.get();
+
+            // Validar si el usauirio esta activo o no
+            if (!usuario.isActivo()) {
+                model.addAttribute("error", "Usuario inactivo. Contacta al administrador.");
+                return "index";
+            }
+
+            if (correo.equals("admin@admin.com") && contrasena.equals("admin")) {
+                session.setAttribute("admin", usuario);
+                return "redirect:/admin";
+            } else {
+                session.setAttribute("usuario", usuario);
+                return "redirect:/dashboard";
+            }
+
         } else {
             model.addAttribute("error", "Credenciales incorrectas. Inténtalo de nuevo.");
             return "index";
         }
     }
 
-    // ✅ Cerrar sesión
     @PostMapping("/logout")
     public String cerrarSesion(HttpSession session) {
-        session.invalidate(); 
-        return "redirect:/";  
+        session.invalidate();
+        return "redirect:/";
     }
 }
