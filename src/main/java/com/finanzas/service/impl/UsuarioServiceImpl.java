@@ -6,6 +6,7 @@ import com.finanzas.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,13 +16,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioDao usuarioDao;
 
     @Override
-    public Optional<Usuario> autenticarUsuario(String correo, String contrasena) {
-        return usuarioDao.findByCorreoAndContrasena(correo, contrasena);
+    public void registrarUsuario(Usuario usuario) {
+        usuarioDao.save(usuario);
     }
 
     @Override
-    public void registrarUsuario(Usuario usuario) {
-        usuarioDao.save(usuario);
+    public Optional<Usuario> autenticarUsuario(String correo, String contrasena) {
+        return usuarioDao.findByCorreoAndContrasena(correo, contrasena);
     }
 
     @Override
@@ -30,9 +31,27 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void actualizarUsuario(Usuario usuario) {
-        usuarioDao.save(usuario);
+    public Usuario actualizarUsuario(Usuario usuario) {
+        return usuarioDao.save(usuario);
+    }
+
+    @Override
+    public List<Usuario> obtenerTodosLosUsuarios() {
+        return usuarioDao.findAll();
+    }
+
+    @Override
+    public void eliminarUsuarioPorId(Long idUsuario) {
+        usuarioDao.deleteById(idUsuario);
+    }
+
+    @Override
+    public void cambiarEstadoUsuario(Long idUsuario) {
+        Optional<Usuario> usuarioOpt = usuarioDao.findById(idUsuario);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setActivo(!usuario.isActivo());
+            usuarioDao.save(usuario);
+        }
     }
 }
-
-

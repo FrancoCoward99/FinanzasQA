@@ -16,5 +16,7 @@ public interface IngresoService {
     Double obtenerTotalIngresos(Long idUsuario);
 
     void eliminarIngreso(Long idIngreso);
+    
+    List<Ingreso> getIngresosPorCategoria(Long idCategoria, Long idUsuario);
 
 }
