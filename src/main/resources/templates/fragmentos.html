@@ -8,7 +8,7 @@
         <!-- Fragmento del menú lateral -->
         <div th:fragment="menu">
             <div class="sidebar d-flex flex-column" style="height: 100vh; background-color: #343a40; color: white; padding-top: 20px;">
-                <h4 class="text-center">Menú</h4>
+                <h4 class="text-center">[[#{plantilla.menu}]]</h4>
                 <a th:href="@{/dashboard}" class="text-white px-3 py-2 d-block">[[#{plantilla.inicio}]]</a>
                 <a th:href="@{/categoria/lista}" class="text-white px-3 py-2 d-block">[[#{plantilla.categorias}]]</a>
                 <a th:href="@{/ingreso}" class="text-white px-3 py-2 d-block">[[#{plantilla.ingresos}]]</a>
@@ -35,7 +35,7 @@
 
         <!-- Fragmento de contenido de Tarjetas -->
         <div th:fragment="tarjetas/contenido">
-            <h2>Mis Tarjetas</h2>
+            <h2>[[#{tarjetas}]]</h2>
 
             <!-- Botón para agregar tarjeta -->
             <div class="mb-3">
