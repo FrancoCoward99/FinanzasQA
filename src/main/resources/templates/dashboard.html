@@ -51,25 +51,25 @@
 
                 <!-- Contenido Principal -->
                 <main class="col-md-10 content">
-                    <h2>Te damos la bienvenida, <span th:text="${usuario.nombre}"></span></h2>
+                    <h2>[[#{bienvenida}]], <span th:text="${usuario.nombre}"></span></h2>
 
                     <!-- Grid de Finanzas -->
                     <div class="row mt-4">
                         <div class="col-md-4">
                             <div class="card p-3 text-success">
-                                <h5>Monto Total de Ingresos</h5>
+                                <h5>[[#{ingreso.total}]]</h5>
                                 <p class="fs-4">₡ [[${#numbers.formatDecimal(totalIngresos, 1, 'POINT', 2, 'COMMA')}]]</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3 text-danger">
-                                <h5>Monto Total de Gastos</h5>
+                                <h5>[[#{gasto.total}]]</h5>
                                 <p class="fs-4">₡ [[${#numbers.formatDecimal(totalGastos, 1, 'POINT', 2, 'COMMA')}]]</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card p-3 text-primary">
-                                <h5>Saldo Total de la Cuenta</h5>
+                                <h5>[[#{saldo.total}]]</h5>
                                 <p class="fs-4">₡ [[${#numbers.formatDecimal(saldoTotal, 1, 'POINT', 2, 'COMMA')}]]</p>
                             </div>
                         </div>
@@ -77,14 +77,14 @@
 
                     <!-- Historial de Transacciones -->
                     <div class="mt-4">
-                        <h4>Historial de Transacciones</h4>
+                        <h4>[[#{historial.transaccion}]]</h4>
                         <table class="table table-striped">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
-                                    <th>Monto</th>
-                                    <th>Tipo</th>
+                                    <th>[[#{fecha.plantilla}]]</th>
+                                    <th>[[#{descripcion.plantilla}]]</th>
+                                    <th>[[#{monto.plantilla}]]</th>
+                                    <th>[[#{tipo.plantilla}]]</th>
                                 </tr>
                             </thead>
                             <tbody>

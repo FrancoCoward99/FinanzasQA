@@ -40,12 +40,12 @@
 
             <!-- Contenido principal directamente aquí -->
             <main class="col-md-10 p-4">
-                <h2>Mis Tarjetas</h2>
+                <h2>[[#{tarjetas}]]</h2>
 
                 <!-- Botón para agregar tarjeta -->
                 <div class="mb-3">
                     <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#agregarTarjeta">
-                        <i class="fas fa-plus"></i> Agregar Tarjeta
+                        <i class="fas fa-plus"></i> [[#{tarjeta.agregar}]] 
                     </button>
                 </div>
 
@@ -53,10 +53,10 @@
                 <table class="table table-striped">
                     <thead class="table-dark">
                         <tr>
-                            <th>Nombre</th>
-                            <th>Número</th>
-                            <th>Tipo</th>
-                            <th>Acciones</th>
+                            <th>[[#{tarjeta.nombre}]]</th>
+                            <th>[[#{tarjeta.numero}]]</th>
+                            <th>[[#{tarjeta.tipo}]]</th>
+                            <th>[[#{tarjeta.acciones}]]</th>
                         </tr>
                     </thead>
                     <tbody>

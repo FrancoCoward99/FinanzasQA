@@ -41,17 +41,17 @@
 
                 <!-- Columna del contenido -->
                 <main class="col-md-10 content">
-                    <h2>Gastos</h2>
+                    <h2>[[#{plantilla.gastos}]]</h2>
 
                     <div class="row align-items-center">
                         <div class="col-auto">
                             <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#agregarGasto">
-                                <i class="fas fa-plus"></i> Agregar Gasto
+                                <i class="fas fa-plus"></i> [[#{gasto.agregar}]]
                             </button>
                         </div>
                         <div class="col-auto text-end">
                             <div class="card p-2 border-dark d-inline-block">
-                                <h3 class="m-0" style="font-size: 1rem;">[[${totalGastos}]] Gastos</h3>
+                                <h3 class="m-0" style="font-size: 1rem;">[[${totalGastos}]] [[#{plantilla.gastos}]]</h3>
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                         <div class="modal-dialog modal-md modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header text-white" style="background-color: black;">
-                                    <h5 class="modal-title w-100 text-center">Agregar Gasto</h5>
+                                    <h5 class="modal-title w-100 text-center">[[#{gasto.agregar}]]</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <form th:action="@{/gasto/guardar}" th:object="${gasto}" method="POST" class="was-validated">
@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-primary" type="submit">Guardar</button>
+                                        <button class="btn btn-primary" type="submit">[[#{gasto.guardar}]]</button>
                                     </div>
                                 </form>
                             </div>
@@ -103,15 +103,15 @@
 
                     <!-- Tabla de gastos -->
                     <div class="mt-4">
-                        <h4>Historial de Transacciones</h4>
+                        <h4>[[#{historial.transaccion}]]</h4>
                         <table class="table table-striped">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Fecha</th>
-                                    <th>Descripción</th>
-                                    <th>Monto</th>
-                                    <th>Tarjeta</th> <!-- Nueva columna -->
-                                    <th>Acciones</th>
+                                    <th>[[#{fecha.plantilla}]]</th>
+                                    <th>[[#{descripcion.plantilla}]]</th>
+                                    <th>[[#{monto.plantilla}]]</th>
+                                    <th>[[#{gasto.tarjeta}]]</th> <!-- Nueva columna -->
+                                    <th>[[#{acciones.usuario}]]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,7 +122,7 @@
                                     <td th:text="${c.tarjeta != null ? c.tarjeta.nombre : 'N/A'}"></td> <!-- Muestra el nombre de la tarjeta -->
                                     <td>
                                         <form th:action="@{/gasto/eliminar/{id}(id=${c.idGasto})}" method="POST">
-                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>
                                         </form>
                                     </td>
                                 </tr>
