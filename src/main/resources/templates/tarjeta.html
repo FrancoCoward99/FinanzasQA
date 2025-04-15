@@ -66,7 +66,7 @@
                             <td th:text="${tarjeta.tipo}"></td>
                             <td>
                                 <form th:action="@{/tarjeta/eliminar/{id}(id=${tarjeta.idTarjeta})}" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>plantilla.eliminar
                                 </form>
                             </td>
                         </tr>
@@ -78,29 +78,29 @@
                     <div class="modal-dialog modal-md modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-dark text-white">
-                                <h5 class="modal-title w-100 text-center" id="agregarTarjetaLabel">Agregar Tarjeta</h5>
+                                <h5 class="modal-title w-100 text-center" id="agregarTarjetaLabel">[[#{tarjeta.agregar}]] </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
                             <form th:action="@{/tarjeta/guardar}" method="post">
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label>Nombre</label>
+                                        <label>[[#{tarjeta.nombre}]]</label>
                                         <input type="text" class="form-control" name="nombre" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Número de Tarjeta</label>
+                                        <label>[[#{tarjeta.numero}]]</label>
                                         <input type="text" class="form-control" name="numeroTarjeta" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label>Tipo</label>
+                                        <label>[[#{tarjeta.tipo}]]</label>
                                         <select name="tipo" class="form-control" required>
-                                            <option value="Débito">Débito</option>
-                                            <option value="Crédito">Crédito</option>
+                                            <option value="Débito">[[#{tarjeta.debito}]]</option>
+                                            <option value="Crédito">[[#{tarjeta.credito}]]</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary" type="submit">Guardar</button>
+                                    <button class="btn btn-primary" type="submit">[[#{plantilla.guardar}]]</button>
                                 </div>
                             </form>
                         </div>
