@@ -7,20 +7,20 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Panel de Administración</h2>
+    <h2 class="text-center mb-4">[[#{plantilla.administracion}]]</h2>
 
     <form th:action="@{/admin/logout}" method="POST">
-        <button type="submit" class="btn btn-secondary">Cerrar Sesión</button>
+        <button type="submit" class="btn btn-secondary">[[#{plantilla.salir}]]</button>
     </form>
 
     <table class="table table-striped mt-3">
         <thead class="table-dark">
             <tr>
-                <th>ID Usuario</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>[[#{usuario.id}]]</th>
+                <th>[[#{usuario.nombre}]]</th>
+                <th>[[#{usuario.correo}]]</th>
+                <th>[[#{plantilla.estado}]]</th>
+                <th>[[#{tarjeta.acciones}]]</th>
             </tr>
         </thead>
         <tbody>
@@ -30,8 +30,8 @@
                 <td th:text="${usuario.correo}"></td>
                 <td th:text="${usuario.activo ? 'Activo' : 'Inactivo'}"></td>
                 <td>
-                    <a th:href="@{/admin/toggle-estado/{idUsuario}(idUsuario=${usuario.idUsuario})}" class="btn btn-warning btn-sm">Cambiar Estado</a>
-                    <a th:href="@{/admin/eliminar/{idUsuario}(idUsuario=${usuario.idUsuario})}" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a th:href="@{/admin/toggle-estado/{idUsuario}(idUsuario=${usuario.idUsuario})}" class="btn btn-warning btn-sm">[[#{plantilla.estado}]]</a>
+                    <a th:href="@{/admin/eliminar/{idUsuario}(idUsuario=${usuario.idUsuario})}" class="btn btn-danger btn-sm">[[#{accion.eliminar}]</a>
                 </td>
             </tr>
         </tbody>

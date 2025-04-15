@@ -40,17 +40,17 @@
                 <main class="col-md-10 mt-5">
                     <div class="container">
 
-                        <h2 class="text-center mb-4">Configuración de Usuario</h2>
+                        <h2 class="text-center mb-4">[[#{configuracion.usuario}]]</h2>
 
                         <form th:action="@{/configuracion}" method="post">
                             <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}">
                             <div class="mb-3">
-                                <label class="form-label">Nombre</label>
+                                <label class="form-label">[[#{plantilla.nombre}]]</label>
                                 <input type="text" class="form-control" name="nombre" th:value="${usuario.nombre}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Nueva Contraseña</label>
+                                <label class="form-label">[[#{configuracion.contrasena}]]</label>
                                 <input type="password" class="form-control" name="contrasena" placeholder="Ingrese nueva contraseña">
                             </div>
                             <br>
@@ -59,9 +59,9 @@
 
                             <!-- Botón que activa el modal -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal">
-                                Guardar Cambios
+                               [[#{plantilla.guardar}]]
                             </button>
-                            <a th:href="@{/dashboard}" class="btn btn-secondary">Cancelar</a>
+                            <a th:href="@{/dashboard}" class="btn btn-secondary">[[#{configuracion.cancelar}]]</a>
 
                             <!-- Modal -->
                             <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
@@ -69,17 +69,17 @@
                                     <div class="modal-content">
 
                                         <div class="modal-header bg-warning">
-                                            <h5 class="modal-title">Confirmar Cambios</h5>
+                                            <h5 class="modal-title">[[#{configuracion.cambios}]]</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
 
                                         <div class="modal-body text-center">
-                                            ¿Estás seguro de aplicar los cambios?
+                                            [[#{configuracion.confirmacion}]]
                                         </div>
 
                                         <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Sí, aplicar cambios</button>
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-success">[[#{configuracion.aplicar}]]</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">[[#{configuracion.cancelar}]]</button>
                                         </div>
 
                                     </div>
@@ -94,4 +94,3 @@
 
     </body>
 </html>
-
