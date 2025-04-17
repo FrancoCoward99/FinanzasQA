@@ -36,26 +36,25 @@ public class GastoController {
         }
 
         List<Gasto> gastos = gastoService.obtenerGastosPorUsuario(usuario.getIdUsuario());
-        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+        List<Categoria> categorias = categoriaService.obtenerCategoriasGastoPorUsuario(usuario.getIdUsuario());
         List<Tarjeta> tarjetas = tarjetaService.obtenerTarjetasPorUsuario(usuario.getIdUsuario());
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("gastos", gastos);
         model.addAttribute("categorias", categorias);
         model.addAttribute("tarjetas", tarjetas);
-       model.addAttribute("totalGastos", gastos.size());
-
+        model.addAttribute("totalGastos", gastos.size());
 
         return "gasto";
     }
 
     @PostMapping("/guardar")
     public String guardarGasto(@RequestParam("fecha") String fecha,
-                               @RequestParam("descripcion") String descripcion,
-                               @RequestParam("monto") Double monto,
-                               @RequestParam("categoria") Long idCategoria,
-                               @RequestParam("tarjeta") Long idTarjeta,
-                               HttpSession session) {
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("monto") Double monto,
+            @RequestParam("categoria") Long idCategoria,
+            @RequestParam("tarjeta") Long idTarjeta,
+            HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
@@ -86,5 +85,32 @@ public class GastoController {
     public String eliminarGasto(@PathVariable("id") Long id) {
         gastoService.eliminarPorId(id);
         return "redirect:/gasto";
+    }
+
+    @GetMapping("/categoria/{idCategoria}")
+    public String gastosPorCategoria(@PathVariable Long idCategoria, HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/";
+        }
+
+        List<Gasto> lista;
+        if (idCategoria == 0) {
+            lista = gastoService.obtenerGastosPorUsuario(usuario.getIdUsuario());
+        } else {
+            lista = gastoService.obtenerGastosPorCategoria(idCategoria, usuario.getIdUsuario());
+        }
+
+        List<Categoria> categorias = categoriaService.obtenerCategoriasGastoPorUsuario(usuario.getIdUsuario());
+        List<Tarjeta> tarjetas = tarjetaService.obtenerTarjetasPorUsuario(usuario.getIdUsuario());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("gastos", lista);
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("tarjetas", tarjetas);
+        model.addAttribute("totalGastos", lista.size());
+
+        return "gasto";
     }
 }

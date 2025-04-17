@@ -20,4 +20,6 @@ public interface CategoriaService {
     void eliminarCategoria(Long id);
     
     List<Categoria> obtenerCategoriasDeIngresoPorUsuario(Long idUsuario);
+    
+    List<Categoria> obtenerCategoriasGastoPorUsuario(Long idUsuario);
 }

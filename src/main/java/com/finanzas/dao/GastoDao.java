@@ -22,4 +22,9 @@ public interface GastoDao extends JpaRepository<Gasto, Long> {
     void registrarGastoEnHistorial(@Param("idUsuario") Long idUsuario,
             @Param("idCategoria") Long idCategoria,
             @Param("monto") Double monto);
+
+    @Query("SELECT g FROM Gasto g WHERE g.usuario.idUsuario = :idUsuario AND g.categoria.idCategoria = :idCategoria")
+    List<Gasto> findByUsuarioAndCategoria(@Param("idUsuario") Long idUsuario, @Param("idCategoria") Long idCategoria);
+    
+    
 }

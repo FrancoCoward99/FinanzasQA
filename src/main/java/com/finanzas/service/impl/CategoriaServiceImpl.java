@@ -45,4 +45,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     public List<Categoria> obtenerCategoriasDeIngresoPorUsuario(Long idUsuario) {
         return categoriaDao.findByUsuario_IdUsuarioAndTipo(idUsuario, TipoCategoria.INGRESO);
     }
+
+    @Override
+    public List<Categoria> obtenerCategoriasGastoPorUsuario(Long idUsuario) {
+        return categoriaDao.findCategoriasGastoPorUsuario(idUsuario);
+    }
 }

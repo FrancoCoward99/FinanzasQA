@@ -100,6 +100,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="dropdown my-3">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Filtrar por categoría
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/gasto/categoria/0}">Todo</a></li>
+                            <li th:each="cat : ${categorias}">
+                                <a class="dropdown-item" th:href="@{'/gasto/categoria/' + ${cat.idCategoria}}" th:text="${cat.nombre}"></a>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!-- Tabla de gastos -->
                     <div class="mt-4">

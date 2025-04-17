@@ -62,4 +62,10 @@ public class GastoServiceImpl implements GastoService {
     public void eliminarPorId(Long idGasto) {
         gastoDao.deleteById(idGasto);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Gasto> obtenerGastosPorCategoria(Long idCategoria, Long idUsuario) {
+        return gastoDao.findByUsuarioAndCategoria(idUsuario, idCategoria);
+    }
 }
