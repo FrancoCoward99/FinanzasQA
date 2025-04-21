@@ -66,7 +66,7 @@
                             <td th:text="${tarjeta.tipo}"></td>
                             <td>
                                 <form th:action="@{/tarjeta/eliminar/{id}(id=${tarjeta.idTarjeta})}" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>plantilla.eliminar
+                                    <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>
                                 </form>
                             </td>
                         </tr>
