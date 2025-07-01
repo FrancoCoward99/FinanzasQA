@@ -6,6 +6,7 @@ import com.finanzas.domain.Tarjeta;
 import com.finanzas.domain.Usuario;
 import com.finanzas.service.CategoriaService;
 import com.finanzas.service.GastoService;
+import com.finanzas.service.IngresoService;
 import com.finanzas.service.TarjetaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,21 @@ public class GastoController {
     @Autowired
     private TarjetaService tarjetaService;
 
+    @Autowired
+    private IngresoService ingresoService;
+
     @GetMapping
-    public String mostrarGastos(HttpSession session, Model model) {
+    public String mostrarGastos(HttpSession session, Model model, @RequestParam(value = "alertaNegativo", required = false) String alertaNegativo) {
+        
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             return "redirect:/";
         }
 
+        System.out.println("ID DEL USUARIO EN SESIÓN: " + usuario.getIdUsuario());
+
         List<Gasto> gastos = gastoService.obtenerGastosPorUsuario(usuario.getIdUsuario());
-        List<Categoria> categorias = categoriaService.obtenerCategoriasGastoPorUsuario(usuario.getIdUsuario());
+        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
         List<Tarjeta> tarjetas = tarjetaService.obtenerTarjetasPorUsuario(usuario.getIdUsuario());
 
         model.addAttribute("usuario", usuario);
@@ -45,20 +52,31 @@ public class GastoController {
         model.addAttribute("tarjetas", tarjetas);
         model.addAttribute("totalGastos", gastos.size());
 
+        if ("true".equals(alertaNegativo)) {
+            model.addAttribute("alertaNegativo", true);
+        }
+
         return "gasto";
     }
 
     @PostMapping("/guardar")
     public String guardarGasto(@RequestParam("fecha") String fecha,
-            @RequestParam("descripcion") String descripcion,
-            @RequestParam("monto") Double monto,
-            @RequestParam("categoria") Long idCategoria,
-            @RequestParam("tarjeta") Long idTarjeta,
-            HttpSession session) {
+                               @RequestParam("descripcion") String descripcion,
+                               @RequestParam("monto") Double monto,
+                               @RequestParam("categoria") Long idCategoria,
+                               @RequestParam("tarjeta") Long idTarjeta,
+                               HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             return "redirect:/";
+        }
+
+        Double totalIngresos = ingresoService.obtenerTotalIngresos(usuario.getIdUsuario());
+        Double totalGastos = gastoService.obtenerTotalGastos(usuario.getIdUsuario());
+
+        if (totalIngresos - (totalGastos + monto) < 0) {
+            return "redirect:/gasto?alertaNegativo=true";
         }
 
         Categoria categoria = categoriaService.obtenerCategoriaPorId(idCategoria).orElse(null);

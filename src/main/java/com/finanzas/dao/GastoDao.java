@@ -16,7 +16,7 @@ public interface GastoDao extends JpaRepository<Gasto, Long> {
     Double obtenerTotalGastos(@Param("idUsuario") Long idUsuario);
 
     @Query(value = "INSERT INTO historial_transacciones (id_usuario, tipo, id_categoria, monto, fecha) "
-            + "VALUES (:idUsuario, 'GASTO', :idCategoria, :monto, NOW())", nativeQuery = true)
+            + "VALUES (:idUsuario, 'GASTO', :idCategoria, :monto, CURRENT_TIMESTAMP)", nativeQuery = true)
     @Modifying
     @Transactional
     void registrarGastoEnHistorial(@Param("idUsuario") Long idUsuario,

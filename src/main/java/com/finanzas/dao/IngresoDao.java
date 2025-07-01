@@ -16,17 +16,13 @@ public interface IngresoDao extends JpaRepository<Ingreso, Long> {
     Double obtenerTotalIngresos(@Param("idUsuario") Long idUsuario);
 
     @Query(value = "INSERT INTO historial_transacciones (id_usuario, tipo, id_categoria, monto, fecha) "
-            + "VALUES (:idUsuario, 'INGRESO', :idCategoria, :monto, NOW())", nativeQuery = true)
+            + "VALUES (:idUsuario, 'INGRESO', :idCategoria, :monto, CURRENT_TIMESTAMP)", nativeQuery = true)
     @Modifying
     @Transactional
     void registrarIngresoEnHistorial(@Param("idUsuario") Long idUsuario,
-            @Param("idCategoria") Long idCategoria,
-            @Param("monto") Double monto);
-
-     //Ejemplo de método utilizando Métodos de Query
+                                     @Param("idCategoria") Long idCategoria,
+                                     @Param("monto") Double monto);
 
     List<Ingreso> findByCategoria_IdCategoriaAndUsuario_IdUsuario(Long idCategoria, Long idUsuario);
-    
-
-    
 }
+
