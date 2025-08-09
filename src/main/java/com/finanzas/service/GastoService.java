@@ -18,6 +18,7 @@ public interface GastoService {
     void eliminarGasto(Long idGasto);
 
     void eliminarPorId(Long idGasto);
-    
+
     List<Gasto> obtenerGastosPorCategoria(Long idCategoria, Long idUsuario);
 }
+

@@ -4,14 +4,23 @@ import com.finanzas.dao.CategoriaDao;
 import com.finanzas.domain.Categoria;
 import com.finanzas.domain.TipoCategoria;
 import com.finanzas.service.CategoriaService;
-import java.util.List;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private CategoriaDao categoriaDao;
@@ -28,7 +37,14 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<Categoria> obtenerCategoriasPorUsuario(Long idUsuario) {
-        return categoriaDao.findByUsuarioIdUsuario(idUsuario);
+        StoredProcedureQuery query = entityManager
+                .createStoredProcedureQuery("obtener_categorias_por_usuario", Categoria.class)
+                .registerStoredProcedureParameter("p_id_usuario", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_resultado", void.class, ParameterMode.REF_CURSOR);
+
+        query.setParameter("p_id_usuario", idUsuario);
+        query.execute();
+        return query.getResultList();
     }
 
     @Override
@@ -43,11 +59,32 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<Categoria> obtenerCategoriasDeIngresoPorUsuario(Long idUsuario) {
-        return categoriaDao.findByUsuario_IdUsuarioAndTipo(idUsuario, TipoCategoria.INGRESO);
+        StoredProcedureQuery query = entityManager
+                .createStoredProcedureQuery("obtener_categorias_usuario_tipo", Categoria.class)
+                .registerStoredProcedureParameter("p_id_usuario", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_tipo", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_resultado", void.class, ParameterMode.REF_CURSOR);
+
+        query.setParameter("p_id_usuario", idUsuario);
+        query.setParameter("p_tipo", "INGRESO");
+        query.execute();
+        return query.getResultList();
     }
 
     @Override
-    public List<Categoria> obtenerCategoriasGastoPorUsuario(Long idUsuario) {
-        return categoriaDao.findCategoriasGastoPorUsuario(idUsuario);
+    @Transactional(readOnly = true)
+    public List<Categoria> obtenerCategoriasPorTipo(Long idUsuario, String tipo) {
+        StoredProcedureQuery query = entityManager
+                .createStoredProcedureQuery("obtener_categorias_usuario_tipo", Categoria.class)
+                .registerStoredProcedureParameter("p_id_usuario", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_tipo", String.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("p_resultado", void.class, ParameterMode.REF_CURSOR);
+
+        query.setParameter("p_id_usuario", idUsuario);
+        query.setParameter("p_tipo", tipo);
+        query.execute();
+
+        return query.getResultList();
     }
+
 }

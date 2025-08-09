@@ -5,6 +5,7 @@ import com.finanzas.domain.Usuario;
 import com.finanzas.service.HistorialTransaccionService;
 import com.finanzas.service.IngresoService;
 import com.finanzas.service.GastoService;
+import com.finanzas.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private IngresoService ingresoService;
@@ -38,7 +42,7 @@ public class DashboardController {
 
         Double totalIngresos = ingresoService.obtenerTotalIngresos(usuario.getIdUsuario());
         Double totalGastos = gastoService.obtenerTotalGastos(usuario.getIdUsuario());
-        Double saldoTotal = totalIngresos - totalGastos;
+        Double saldoTotal = usuarioService.obtenerSaldoTotal(usuario.getIdUsuario());
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("totalIngresos", totalIngresos);

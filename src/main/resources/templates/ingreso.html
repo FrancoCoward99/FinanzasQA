@@ -32,6 +32,10 @@
                 border-radius: 10px;
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             }
+             .table-container {
+                max-height: 600px;
+                overflow-y: auto;
+            }
         </style>
     </head>
     <body>
@@ -104,33 +108,34 @@
                     </div>
 
                     <h4>[[#{historial.transaccion}]]</h4>
-                    <table class="table table-striped">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>[[#{fecha.plantilla}]]</th>
-                                <th>[[#{descripcion.plantilla}]]</th>
-                                <th>[[#{monto.plantilla}]]</th>
-                                <th>[[#{categoria.nombreCategoria}]]</th>
-                                <th>[[#{acciones.usuario}]]</th>
+                    <div class="table-container">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>[[#{fecha.plantilla}]]</th>
+                                    <th>[[#{descripcion.plantilla}]]</th>
+                                    <th>[[#{monto.plantilla}]]</th>
+                                    <th>[[#{categoria.nombreCategoria}]]</th>
+                                    <th>[[#{acciones.usuario}]]</th>
 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="c : ${ingresos}">
-                                <td>[[${c.fecha}]]</td>
-                                <td>[[${c.descripcion}]]</td>
-                                <td>₡[[${#numbers.formatDecimal(c.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
-                                <td>[[${c.categoria.nombre}]]</td>
-                                <td>
-                                    <form th:action="@{/ingreso/eliminar/{id}(id=${c.idIngreso})}" method="POST">
-                                        <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="c : ${ingresos}">
+                                    <td>[[${c.fecha}]]</td>
+                                    <td>[[${c.descripcion}]]</td>
+                                    <td>₡[[${#numbers.formatDecimal(c.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                    <td>[[${c.categoria.nombre}]]</td>
+                                    <td>
+                                        <form th:action="@{/ingreso/eliminar/{id}(id=${c.idIngreso})}" method="POST">
+                                            <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </main>
             </div>
         </div>

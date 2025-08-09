@@ -19,4 +19,7 @@ public interface UsuarioService {
     void eliminarUsuarioPorId(Long idUsuario);
 
     void cambiarEstadoUsuario(Long idUsuario);
+    
+    Double obtenerSaldoTotal(Long idUsuario);
+
 }

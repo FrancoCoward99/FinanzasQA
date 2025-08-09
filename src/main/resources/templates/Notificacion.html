@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notificaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #00b405;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="d-flex">
+    <!-- Menú lateral -->
+    <div th:replace="~{fragmentos :: menu}"></div>
+
+    <!-- Contenido principal -->
+    <div class="content w-100">
+        <h2 class="mb-4">Notificaciones</h2>
+
+        <div th:if="${#lists.isEmpty(notificaciones)}">
+            <div class="alert alert-info">No hay notificaciones nuevas.</div>
+        </div>
+
+<table class="table table-striped" th:if="${notificaciones != null and notificaciones.size() > 0}">
+    <thead class="table-dark">
+        <tr>
+            <th>Mensaje</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="notificacion : ${notificaciones}">
+            <td th:text="${#strings.escapeXml(notificacion.mensaje)}">Mensaje</td>
+            <td th:text="${notificacion.fecha != null ? notificacion.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy HH:mm')) : 'Sin fecha'}">Fecha</td>
+        </tr>
+    </tbody>
+</table>
+
+    </div>
+</div>
+
+</body>
+</html>

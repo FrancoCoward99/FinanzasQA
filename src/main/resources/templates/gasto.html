@@ -28,6 +28,10 @@
                 background-color: #00b405 !important;
             }
 
+             .table-container {
+                max-height: 600px;
+                overflow-y: auto;
+            }
         </style>
     </head>
     <body>
@@ -115,31 +119,33 @@
                     <!-- Tabla de gastos -->
                     <div class="mt-4">
                         <h4>[[#{historial.transaccion}]]</h4>
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>[[#{fecha.plantilla}]]</th>
-                                    <th>[[#{descripcion.plantilla}]]</th>
-                                    <th>[[#{monto.plantilla}]]</th>
-                                    <th>[[#{gasto.tarjeta}]]</th> <!-- Nueva columna -->
-                                    <th>[[#{acciones.usuario}]]</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="c : ${gastos}">
-                                    <td th:text="${c.fecha}"></td>
-                                    <td th:text="${c.descripcion}"></td>
-                                    <td>₡<span th:text="${#numbers.formatDecimal(c.monto, 1, 'POINT', 2, 'COMMA')}"></span></td>
-                                    <td th:text="${c.tarjeta != null ? c.tarjeta.nombre : 'N/A'}"></td> <!-- Muestra el nombre de la tarjeta -->
-                                    <td>
-                                        <form th:action="@{/gasto/eliminar/{id}(id=${c.idGasto})}" method="POST">
-                                            <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </tbody>
+                        <div class="table-container">
+                            <table class="table table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>[[#{fecha.plantilla}]]</th>
+                                        <th>[[#{descripcion.plantilla}]]</th>
+                                        <th>[[#{monto.plantilla}]]</th>
+                                        <th>[[#{gasto.tarjeta}]]</th> <!-- Nueva columna -->
+                                        <th>[[#{acciones.usuario}]]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="c : ${gastos}">
+                                        <td th:text="${c.fecha}"></td>
+                                        <td th:text="${c.descripcion}"></td>
+                                        <td>₡<span th:text="${#numbers.formatDecimal(c.monto, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td th:text="${c.tarjeta != null ? c.tarjeta.nombre : 'N/A'}"></td> <!-- Muestra el nombre de la tarjeta -->
+                                        <td>
+                                            <form th:action="@{/gasto/eliminar/{id}(id=${c.idGasto})}" method="POST">
+                                                <button type="submit" class="btn btn-danger btn-sm">[[#{plantilla.eliminar}]]</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </main>
             </div>

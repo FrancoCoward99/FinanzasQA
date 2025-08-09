@@ -6,6 +6,15 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+@NamedStoredProcedureQuery(
+    name = "registrarGastoHistorial",
+    procedureName = "registrar_gasto_historial",
+    parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_id_usuario", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_id_categoria", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_monto", type = Double.class)
+    }
+)
 @Data
 @Entity
 @Table(name = "gastos")

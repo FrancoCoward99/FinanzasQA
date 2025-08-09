@@ -33,17 +33,18 @@ public class GastoController {
     private IngresoService ingresoService;
 
     @GetMapping
-    public String mostrarGastos(HttpSession session, Model model, @RequestParam(value = "alertaNegativo", required = false) String alertaNegativo) {
-        
+    public String mostrarGastos(HttpSession session, Model model,
+                                @RequestParam(value = "alertaNegativo", required = false) String alertaNegativo) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             return "redirect:/";
         }
 
-        System.out.println("ID DEL USUARIO EN SESIÓN: " + usuario.getIdUsuario());
-
         List<Gasto> gastos = gastoService.obtenerGastosPorUsuario(usuario.getIdUsuario());
-        List<Categoria> categorias = categoriaService.obtenerCategoriasPorUsuario(usuario.getIdUsuario());
+
+        // ✅ CORREGIDO: Solo categorías de tipo GASTO
+        List<Categoria> categorias = categoriaService.obtenerCategoriasPorTipo(usuario.getIdUsuario(), "GASTO");
         List<Tarjeta> tarjetas = tarjetaService.obtenerTarjetasPorUsuario(usuario.getIdUsuario());
 
         model.addAttribute("usuario", usuario);
@@ -120,7 +121,8 @@ public class GastoController {
             lista = gastoService.obtenerGastosPorCategoria(idCategoria, usuario.getIdUsuario());
         }
 
-        List<Categoria> categorias = categoriaService.obtenerCategoriasGastoPorUsuario(usuario.getIdUsuario());
+        // ✅ CORREGIDO: Solo categorías tipo GASTO
+        List<Categoria> categorias = categoriaService.obtenerCategoriasPorTipo(usuario.getIdUsuario(), "GASTO");
         List<Tarjeta> tarjetas = tarjetaService.obtenerTarjetasPorUsuario(usuario.getIdUsuario());
 
         model.addAttribute("usuario", usuario);

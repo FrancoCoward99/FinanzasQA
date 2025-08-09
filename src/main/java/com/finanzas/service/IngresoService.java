@@ -5,18 +5,17 @@ import java.util.List;
 
 public interface IngresoService {
 
-    public List<Ingreso> getIngresos();
+    List<Ingreso> getIngresos();
 
-    public Ingreso getIngreso(Ingreso ingreso);
+    Ingreso getIngreso(Ingreso ingreso);
 
-    public void save(Ingreso ingreso);
+    void save(Ingreso ingreso);
 
     List<Ingreso> getIngresosPorUsuario(Long idUsuario);
 
     Double obtenerTotalIngresos(Long idUsuario);
 
     void eliminarIngreso(Long idIngreso);
-    
-    List<Ingreso> getIngresosPorCategoria(Long idCategoria, Long idUsuario);
 
+    List<Ingreso> getIngresosPorCategoria(Long idCategoria, Long idUsuario);
 }

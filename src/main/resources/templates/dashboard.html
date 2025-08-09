@@ -38,6 +38,11 @@
                 border-radius: 10px;
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             }
+            .table-container {
+                max-height: 600px;
+                overflow-y: auto;
+            }
+
         </style>
     </head>
     <body>
@@ -45,7 +50,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar -->
-                 <div class="col-md-2 p-0">
+                <div class="col-md-2 p-0">
                     <div th:replace="fragmentos :: menu"></div>
                 </div>
 
@@ -78,26 +83,28 @@
                     <!-- Historial de Transacciones -->
                     <div class="mt-4">
                         <h4>[[#{historial.transaccion}]]</h4>
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>[[#{fecha.plantilla}]]</th>
-                                    <th>[[#{descripcion.plantilla}]]</th>
-                                    <th>[[#{monto.plantilla}]]</th>
-                                    <th>[[#{tipo.plantilla}]]</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="transaccion : ${historialTransacciones}">
-                                    <td>[[${transaccion.fecha}]]</td>
-                                    <td>[[${transaccion.categoria.nombre}]]</td>
-                                    <td class="text-success" th:if="${transaccion.tipo == 'INGRESO'}">₡ [[${#numbers.formatDecimal(transaccion.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
-                                    <td class="text-danger" th:if="${transaccion.tipo == 'GASTO'}">₡ [[${#numbers.formatDecimal(transaccion.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
-                                    <td>[[${transaccion.tipo}]]</td>
-                                </tr>
-                            </tbody>
+                        <div class="table-container">
+                            <table class="table table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>[[#{fecha.plantilla}]]</th>
+                                        <th>[[#{descripcion.plantilla}]]</th>
+                                        <th>[[#{monto.plantilla}]]</th>
+                                        <th>[[#{tipo.plantilla}]]</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="transaccion : ${historialTransacciones}">
+                                        <td>[[${transaccion.fecha}]]</td>
+                                        <td>[[${transaccion.categoria.nombre}]]</td>
+                                        <td class="text-success" th:if="${transaccion.tipo == 'INGRESO'}">₡ [[${#numbers.formatDecimal(transaccion.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                        <td class="text-danger" th:if="${transaccion.tipo == 'GASTO'}">₡ [[${#numbers.formatDecimal(transaccion.monto, 1, 'POINT', 2, 'COMMA')}]]</td>
+                                        <td>[[${transaccion.tipo}]]</td>
+                                    </tr>
+                                </tbody>
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </main>
             </div>
