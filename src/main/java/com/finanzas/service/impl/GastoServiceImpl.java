@@ -73,7 +73,7 @@ public class GastoServiceImpl implements GastoService {
 @Transactional(readOnly = true)
 public Double obtenerTotalGastos(Long idUsuario) {
     StoredProcedureQuery query = entityManager
-        .createStoredProcedureQuery("obtener_total_gastos")
+        .createStoredProcedureQuery("PAQUETE_ANALISIS.obtener_total_gastos")
         .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
         .registerStoredProcedureParameter(2, Double.class, ParameterMode.OUT);
 

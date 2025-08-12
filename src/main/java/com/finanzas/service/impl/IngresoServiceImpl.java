@@ -71,7 +71,7 @@ public class IngresoServiceImpl implements IngresoService {
 @Transactional(readOnly = true)
 public Double obtenerTotalIngresos(Long idUsuario) {
     StoredProcedureQuery query = entityManager
-        .createStoredProcedureQuery("obtener_total_ingresos")
+        .createStoredProcedureQuery("PAQUETE_ANALISIS.obtener_total_ingresos")
         .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
         .registerStoredProcedureParameter(2, Double.class, ParameterMode.OUT);
 
